@@ -1,3 +1,8 @@
+/**
+ *  TaskRepository: Interface for TaskRepository
+ *  Description: Interface for TaskRepository
+ *  Date: 2023-05-27
+ */
 package com.adam.app.todoapp.repository;
 
 import androidx.lifecycle.LiveData;

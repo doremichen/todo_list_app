@@ -1,12 +1,14 @@
+/**
+ * TaskRepositoryImpl: Implementation of TaskRepository
+ * Description: Implementation of TaskRepository
+ * Date: 2023-05-27
+ */
 package com.adam.app.todoapp.repository;
-
-import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
 import com.adam.app.todoapp.model.Task;
 import com.adam.app.todoapp.model.TaskDao;
-import com.adam.app.todoapp.model.TaskDatabase;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
