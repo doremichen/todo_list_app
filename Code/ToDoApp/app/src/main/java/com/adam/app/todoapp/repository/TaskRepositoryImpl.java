@@ -46,6 +46,11 @@ public class TaskRepositoryImpl implements ITaskRepository {
     }
 
     @Override
+    public void deleteTaskById(int id) {
+        mExecutorService.execute(() -> mTaskDao.deleteTaskById(id));
+    }
+
+    @Override
     public LiveData<List<Task>> getAllTasks() {
         return mTaskDao.getAllTasks();
     }

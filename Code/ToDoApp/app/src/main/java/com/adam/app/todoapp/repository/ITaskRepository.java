@@ -17,6 +17,7 @@ public interface ITaskRepository {
     void insertTask(Task task);
     void updateTask(Task task);
     void deleteTask(Task task);
+    void deleteTaskById(int id);
     LiveData<List<Task>> getAllTasks();
     LiveData<List<Task>> getTasksByStatus(boolean isCompleted);
 }
