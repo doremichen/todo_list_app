@@ -1,0 +1,48 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    namespace 'com.med.app.todoapp'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.med.app.todoapp"
+        minSdk 29
+        targetSdk 35
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+
+    implementation libs.appcompat
+    implementation libs.material
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+    // Room component
+    implementation "androidx.room:room-runtime:2.3.0-alpha04"
+    annotationProcessor "androidx.room:room-compiler:2.3.0-alpha04"
+
+    // Optinal: Kotlin extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:2.3.0-alpha04"
+
+    // lifecycle components
+    implementation "androidx.lifecycle:lifecycle-livedata:2.9.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.9.1"
+}
