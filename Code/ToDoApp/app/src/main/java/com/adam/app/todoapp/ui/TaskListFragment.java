@@ -1,6 +1,5 @@
 package com.adam.app.todoapp.ui;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,15 +10,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.adam.app.todoapp.Utils;
 import com.adam.app.todoapp.model.Task;
+import com.adam.app.todoapp.model.TaskFilter;
 import com.adam.app.todoapp.viewmodel.TaskViewModel;
 import com.med.app.todoapp.R;
 import com.med.app.todoapp.databinding.FragmentTaskListBinding;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TaskListFragment extends Fragment implements TaskListAdapter.OnTaskItemListener {
 
@@ -36,6 +38,67 @@ public class TaskListFragment extends Fragment implements TaskListAdapter.OnTask
         mBinding = FragmentTaskListBinding.inflate(inflater, container, false);
         return mBinding.getRoot();
     }
+
+    /**
+     * interface menu item
+     */
+    interface MenuItem {
+        void onClick();
+    }
+
+    /**
+     * menu item: All
+     */
+    class ALL implements MenuItem {
+        @Override
+        public void onClick() {
+            // log
+            Utils.info("All");
+            // set filter
+            mViewModel.setFilter(TaskFilter.ALL);
+        }
+    }
+
+    /**
+     * menu item: Completed
+     */
+    class COMPLETED implements MenuItem {
+        @Override
+        public void onClick() {
+            // log
+            Utils.info("Completed");
+            // set filter
+            mViewModel.setFilter(TaskFilter.COMPLETED);
+        }
+    }
+
+    /**
+     * menu item: Active
+     */
+    class ACTIVE implements MenuItem {
+        @Override
+        public void onClick() {
+            // log
+            Utils.info("Active");
+            // set filter
+            mViewModel.setFilter(TaskFilter.INCOMPLETE);
+        }
+    }
+
+    /**
+     * map menu item
+     * key: resId
+     * value: MenuItem
+     */
+    private final Map<Integer, MenuItem> mMenuItemMap = new HashMap<>();
+
+    // build map
+    {
+        mMenuItemMap.put(R.id.action_filter_all, new ALL());
+        mMenuItemMap.put(R.id.action_filter_completed, new COMPLETED());
+        mMenuItemMap.put(R.id.action_filter_active, new ACTIVE());
+    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -58,6 +121,18 @@ public class TaskListFragment extends Fragment implements TaskListAdapter.OnTask
                     // navigate to AddEditTaskFragment
                     NavController navController = NavHostFragment.findNavController(this);
                     navController.navigate(R.id.action_taskListFragment_to_addEditTaskFragment);
+                }
+        );
+
+        // set menu item click listener
+        mBinding.toolbar.setOnMenuItemClickListener(
+                item -> {
+                        // from map get menu item
+                        MenuItem menuItem = mMenuItemMap.get(item.getItemId());
+                        if (menuItem != null) {
+                            menuItem.onClick();
+                        }
+                    return true;
                 }
         );
 
