@@ -1,5 +1,6 @@
 package com.adam.app.todoapp.ui;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.adam.app.todoapp.Utils;
 import com.adam.app.todoapp.model.Task;
 import com.adam.app.todoapp.viewmodel.TaskViewModel;
+import com.med.app.todoapp.R;
 import com.med.app.todoapp.databinding.FragmentTaskListBinding;
 
 public class TaskListFragment extends Fragment implements TaskListAdapter.OnTaskItemListener {
@@ -49,12 +55,10 @@ public class TaskListFragment extends Fragment implements TaskListAdapter.OnTask
         // add floating button click listener
         mBinding.fabAddTask.setOnClickListener(
                 v -> {
-                    // TODO: Show Add Task Dialog or navigate to AddTaskFragment
+                    // navigate to AddEditTaskFragment
+                    NavController navController = NavHostFragment.findNavController(this);
+                    navController.navigate(R.id.action_taskListFragment_to_addEditTaskFragment);
                 }
-//                v -> requireActivity().getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.fragment_container, new TaskDetailFragment())
-//                        .addToBackStack(null)
-//                        .commit()
         );
 
     }
@@ -74,13 +78,25 @@ public class TaskListFragment extends Fragment implements TaskListAdapter.OnTask
 
     @Override
     public void onItemClick(Task task) {
-        // TODO: Navigate to edit screen
+        // navigate to AddEditTaskFragment
+        Bundle args = new Bundle();
+        args.putInt(AddEditTaskFragment.ARG_TASK_ID, task.getId());
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.action_taskListFragment_to_addEditTaskFragment, args);
 
     }
 
     @Override
     public void onItemLongClick(Task task) {
-        // TODO: Show delete confirmation dialog
-        mViewModel.deleteTask(task);
+        Utils.ButtonContent postiveButton = new Utils.ButtonContent("Yes", (dialog, which) -> {
+            mViewModel.deleteTask(task);
+        });
+        Utils.ButtonContent negativeButton = new Utils.ButtonContent("No", null);
+        // Show delete confirmation dialog
+        Utils.showDialog(requireContext(),
+                "Delete Task",
+                "Are you sure you want to delete this task?",
+                postiveButton,
+                negativeButton);
     }
 }

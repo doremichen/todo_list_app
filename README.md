@@ -136,8 +136,8 @@ app/
 - [x] Initial README
 - [x] Task Entity & DAO
 - [x] Repository Layer
-- [ ] ViewModel Layer
-- [ ] UI Fragments
+- [x] ViewModel Layer
+- [x] UI Fragments
 - [ ] Unit Tests
 - [ ] UI Testing
 - [ ] UI Polish & Validation

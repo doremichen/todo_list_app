@@ -52,7 +52,7 @@ public class TaskRepositoryImplTest {
         // when
         mTaskRepository.updateTask(task);
         // then
-        verify(mTaskDao).updateTask(task);
+        verify(mTaskDao, timeout(1000L)).updateTask(task);
     }
 
     @Test

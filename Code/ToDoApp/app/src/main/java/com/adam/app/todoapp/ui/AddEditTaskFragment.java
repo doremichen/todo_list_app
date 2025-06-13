@@ -1,66 +1,133 @@
+/**
+ * AddEditTaskFragment: Fragment for AddEditTaskFragment
+ * Description: Fragment class for AddEditTaskFragment
+ * Date: 2023-05-27
+ */
 package com.adam.app.todoapp.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
+import com.adam.app.todoapp.Utils;
+import com.adam.app.todoapp.model.Task;
+import com.adam.app.todoapp.viewmodel.TaskViewModel;
 import com.med.app.todoapp.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link AddEditTaskFragment#newInstance} factory method to
- * create an instance of this fragment.
+ *
  */
 public class AddEditTaskFragment extends Fragment {
+    // title edit text
+    private EditText mTitleEditText;
+    // description edit text
+    private EditText mDescriptionEditText;
+    // completed checkbox
+    private CheckBox mCompletedCheckBox;
+    // save button
+    private Button mSaveButton;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // Task view model
+    private TaskViewModel mTaskViewModel;
+    // Current Task
+    private Task mCurrentTask;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    // constant ARG_TASK_ID
+    public static final String ARG_TASK_ID = "task_id";
 
+    // constructor
     public AddEditTaskFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddEditTaskFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddEditTaskFragment newInstance(String param1, String param2) {
-        AddEditTaskFragment fragment = new AddEditTaskFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    // onCreateView
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_add_edit_task, container, false);
+    }
+
+    // onViewCreate
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // initial view
+        mTitleEditText = view.findViewById(R.id.edit_text_title);
+        mDescriptionEditText = view.findViewById(R.id.edit_text_description);
+        mCompletedCheckBox = view.findViewById(R.id.checkbox_completed);
+        mSaveButton = view.findViewById(R.id.button_save_task);
+
+        //initial view model
+        mTaskViewModel = new ViewModelProvider(
+                requireActivity(),
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication())
+                ).get(TaskViewModel.class);
+
+        // Show title, description, and completed status if edit mode
+        Bundle args = getArguments();
+        if (args != null && args.containsKey(ARG_TASK_ID)) {
+            int taskId = args.getInt(ARG_TASK_ID);
+            mTaskViewModel.getTasks().observe(getViewLifecycleOwner(), tasks -> {
+                for (Task task : tasks) {
+                    // edit task by id
+                    if (task.getId() == taskId) {
+                        mCurrentTask = task;
+                        mTitleEditText.setText(task.getTitle());
+                        mDescriptionEditText.setText(task.getDescription());
+                        mCompletedCheckBox.setChecked(task.getIsCompleted());
+                        break;
+                    }
+                }
+            });
+        }
+
+        // Save button click listener
+        mSaveButton.setOnClickListener(v -> {
+            String title = mTitleEditText.getText().toString();
+            String description = mDescriptionEditText.getText().toString();
+            boolean isCompleted = mCompletedCheckBox.isChecked();
+
+            // Show toast if title is empty
+            if (title.isEmpty()) {
+                //show toast
+                Utils.showToast(AddEditTaskFragment.this.getContext(), "title is empty");
+                return;
+            }
+
+            // When mCurrentTask is null, it means it's a new task
+            if (mCurrentTask == null) {
+                // Create a new task
+                Task newTask = new Task();
+                newTask.setTitle(title);
+                newTask.setDescription(description);
+                newTask.setIsCompleted(isCompleted);
+                // Insert new task
+                mTaskViewModel.insertTask(newTask);
+            } else {
+                // Update existing task
+                mCurrentTask.setTitle(title);
+                mCurrentTask.setDescription(description);
+                mCurrentTask.setIsCompleted(isCompleted);
+                // Update task
+                mTaskViewModel.updateTask(mCurrentTask);
+            }
+
+            // show toast
+            Utils.showToast(AddEditTaskFragment.this.getContext(), "Task saved");
+
+            // Navigate back to TaskListFragment
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
+
     }
 }

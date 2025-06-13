@@ -10,4 +10,8 @@
     <string name="btn_description_add_task">Add Task</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="et_hint_task_title">Task Title</string>
+    <string name="et_hint_description">Description</string>
+    <string name="cb_completed">Completed</string>
+    <string name="btn_save_task">Save Task</string>
 </resources>
