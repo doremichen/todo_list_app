@@ -138,8 +138,8 @@ app/
 - [x] Repository Layer
 - [x] ViewModel Layer
 - [x] UI Fragments
-- [ ] Unit Tests
-- [ ] UI Testing
+- [x] Unit Tests
+- [x] UI Testing
 - [ ] UI Polish & Validation
 
 ---
