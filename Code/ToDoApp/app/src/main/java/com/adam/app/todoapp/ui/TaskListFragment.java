@@ -113,8 +113,11 @@ public class TaskListFragment extends Fragment implements TaskListAdapter.OnTask
         mBinding.recyclerViewTasks.setLayoutManager(new LinearLayoutManager(requireContext()));
         // observe tasks
         mViewModel.getTasks().observe(getViewLifecycleOwner(), tasks -> {
+            mBinding.textViewEmptyHint.setVisibility(tasks.isEmpty() ? View.VISIBLE : View.GONE);
             mAdapter.submitList(tasks);
         });
+
+
         // add floating button click listener
         mBinding.fabAddTask.setOnClickListener(
                 v -> {

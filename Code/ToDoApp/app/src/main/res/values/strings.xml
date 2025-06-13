@@ -14,4 +14,5 @@
     <string name="et_hint_description">Description</string>
     <string name="cb_completed">Completed</string>
     <string name="btn_save_task">Save Task</string>
+    <string name="tv_todo_empty_info">There are currently no tasks\nPlease click the button in the lower right corner to add a new task</string>
 </resources>
