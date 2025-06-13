@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/taskListFragment"
         android:name="com.adam.app.todoapp.ui.TaskListFragment"
-        android:label="Task List"
         tools:layout="@layout/fragment_task_list" >
         <action
             android:id="@+id/action_taskListFragment_to_addEditTaskFragment"
@@ -18,6 +17,5 @@
     <fragment
         android:id="@+id/addEditTaskFragment"
         android:name="com.adam.app.todoapp.ui.AddEditTaskFragment"
-        android:label="Add/Edit Task"
         tools:layout="@layout/fragment_add_edit_task" />
 </navigation>
