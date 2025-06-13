@@ -39,3 +39,6 @@ Thumbs.db
 # Word temp
 *.tmp
 ~*.*
+
+# log file
+dump.txt
