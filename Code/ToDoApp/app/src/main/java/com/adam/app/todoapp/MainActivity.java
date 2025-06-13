@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+        Utils.info("onSupportNavigateUp");
         return mNavController.navigateUp() || super.onSupportNavigateUp();
     }
 
