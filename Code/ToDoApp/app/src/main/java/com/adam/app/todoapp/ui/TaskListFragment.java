@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -139,6 +142,21 @@ public class TaskListFragment extends Fragment implements TaskListAdapter.OnTask
                 }
         );
 
+        // set fab button bottom margin to avoid navigation bar covered
+        ViewCompat.setOnApplyWindowInsetsListener(mBinding.getRoot(), (v, insets) -> {
+            Insets systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            View fab = mBinding.fabAddTask;
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) fab.getLayoutParams();
+            layoutParams.bottomMargin = systemBarsInsets.bottom + dpToPx(16); // dynamic bottomMargin
+            layoutParams.setMarginEnd(dpToPx(16)); // keep right margin
+            fab.setLayoutParams(layoutParams);
+            return insets;
+        });
+    }
+
+    private int dpToPx(int i) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round(i * density);
     }
 
     @Override
