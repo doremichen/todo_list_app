@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ToDoApp</string>
+    <string name="tv_task_title">Task Title</string>
+    <string name="tv_content">Optional task content goes here...</string>
+    <string name="menu_item_filter">Filter</string>
+    <string name="menu_item_all_tasks">All Tasks</string>
+    <string name="menu_item_completed">Completed</string>
+    <string name="menu_item_active">Active</string>
+    <string name="toolbar_title_to_do_list">To-Do List</string>
+    <string name="btn_description_add_task">Add Task</string>
 </resources>

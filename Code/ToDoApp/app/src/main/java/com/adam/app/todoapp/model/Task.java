@@ -1,10 +1,12 @@
 package com.adam.app.todoapp.model;
 
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * id: int
@@ -82,5 +84,25 @@ public class Task {
 
     public void setUpdatedAt(Date updatedAt) {
         this.mUpdatedAt = updatedAt;
+    }
+
+    // equals and hashcode methods
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof Task)) return false;
+        Task task = (Task) obj;
+        return mId == task.mId &&
+                mIsCompleted == task.mIsCompleted &&
+                Objects.equals(mTitle, task.mTitle) &&
+                Objects.equals(mDescription, task.mDescription) &&
+                Objects.equals(mCreatedAt, task.mCreatedAt) &&
+                Objects.equals(mUpdatedAt, task.mUpdatedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mId, mTitle, mDescription, mIsCompleted, mCreatedAt, mUpdatedAt);
     }
 }
