@@ -15,4 +15,8 @@
     <string name="cb_completed">Completed</string>
     <string name="btn_save_task">Save Task</string>
     <string name="tv_todo_empty_info">There are currently no tasks\nPlease click the button in the lower right corner to add a new task</string>
+    <string name="dialog_button_yes">Yes</string>
+    <string name="dialog_button_no">No</string>
+    <string name="dialog_title_delete_task">Delete Task</string>
+    <string name="dialog_message_confirm_delete">Are you sure you want to delete this task?</string>
 </resources>

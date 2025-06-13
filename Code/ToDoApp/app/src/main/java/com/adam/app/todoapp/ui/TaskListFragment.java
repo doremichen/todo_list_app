@@ -1,5 +1,6 @@
 package com.adam.app.todoapp.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -184,15 +185,25 @@ public class TaskListFragment extends Fragment implements TaskListAdapter.OnTask
 
     @Override
     public void onItemLongClick(Task task) {
-        Utils.ButtonContent postiveButton = new Utils.ButtonContent("Yes", (dialog, which) -> {
-            mViewModel.deleteTask(task);
-        });
-        Utils.ButtonContent negativeButton = new Utils.ButtonContent("No", null);
-        // Show delete confirmation dialog
-        Utils.showDialog(requireContext(),
-                "Delete Task",
-                "Are you sure you want to delete this task?",
-                postiveButton,
-                negativeButton);
+        Context context = requireContext();
+
+        Utils.ButtonContent positiveButton = new Utils.ButtonContent(
+                context.getString(R.string.dialog_button_yes),
+                (dialog, which) -> mViewModel.deleteTask(task)
+        );
+
+        Utils.ButtonContent negativeButton = new Utils.ButtonContent(
+                context.getString(R.string.dialog_button_no),
+                null
+        );
+
+        Utils.showDialog(
+                context,
+                context.getString(R.string.dialog_title_delete_task),
+                context.getString(R.string.dialog_message_confirm_delete),
+                positiveButton,
+                negativeButton
+        );
     }
+
 }
