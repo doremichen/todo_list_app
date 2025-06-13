@@ -5,6 +5,7 @@
  */
 package com.adam.app.todoapp.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -99,8 +100,9 @@ public class AddEditTaskFragment extends Fragment {
 
             // Show toast if title is empty
             if (title.isEmpty()) {
+                Context context = requireContext();
                 //show toast
-                Utils.showToast(AddEditTaskFragment.this.getContext(), "title is empty");
+                Utils.showToast(AddEditTaskFragment.this.getContext(), context.getString(R.string.toast_empty_title));
                 return;
             }
 

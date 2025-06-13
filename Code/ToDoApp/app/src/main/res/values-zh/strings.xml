@@ -18,5 +18,6 @@
     <string name="dialog_button_no">否</string>
     <string name="dialog_title_delete_task">刪除任務</string>
     <string name="dialog_message_confirm_delete">你確定要刪除此任務嗎？</string>
+    <string name="toast_empty_title">請輸入任務標題</string>
 
 </resources>
